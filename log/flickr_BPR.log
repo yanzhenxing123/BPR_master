@@ -1,0 +1,55 @@
+Following will output the evaluation of the model:
+Following will output the evaluation of the model:
+Epoch:1, compute loss cost:3.4256s, train loss:18566.5547, val loss:14624.6289, test loss:36382.4180
+Evaluate cost:2.0093s 
+ Top5: hr:0.0069, ndcg:0.0058 
+ Top10: hr:0.0103, ndcg:0.0073 
+ Top15: hr:0.0145, ndcg:0.0089
+Epoch:2, compute loss cost:3.2765s, train loss:18566.0449, val loss:14619.0742, test loss:36369.5508
+Evaluate cost:1.9563s 
+ Top5: hr:0.0105, ndcg:0.0094 
+ Top10: hr:0.0142, ndcg:0.0108 
+ Top15: hr:0.0184, ndcg:0.0123
+Epoch:3, compute loss cost:3.8679s, train loss:18547.4668, val loss:14582.4150, test loss:36282.7109
+Evaluate cost:2.0760s 
+ Top5: hr:0.0358, ndcg:0.0337 
+ Top10: hr:0.0440, ndcg:0.0365 
+ Top15: hr:0.0517, ndcg:0.0389
+Epoch:4, compute loss cost:3.6865s, train loss:18469.0137, val loss:14453.6895, test loss:35971.9297
+Evaluate cost:2.0764s 
+ Top5: hr:0.0540, ndcg:0.0510 
+ Top10: hr:0.0689, ndcg:0.0557 
+ Top15: hr:0.0873, ndcg:0.0618
+Epoch:5, compute loss cost:3.5697s, train loss:18235.6523, val loss:14162.8896, test loss:35262.1914
+Evaluate cost:2.0152s 
+ Top5: hr:0.0572, ndcg:0.0539 
+ Top10: hr:0.0731, ndcg:0.0592 
+ Top15: hr:0.0941, ndcg:0.0662
+Following will output the evaluation of the model:
+Epoch:1, compute loss cost:3.4886s, train loss:18566.9766, val loss:14623.4424, test loss:36380.5977
+Evaluate cost:2.0450s 
+ Top5: hr:0.0073, ndcg:0.0064 
+ Top10: hr:0.0124, ndcg:0.0082 
+ Top15: hr:0.0174, ndcg:0.0100
+Epoch:2, compute loss cost:3.4578s, train loss:18565.9941, val loss:14617.8857, test loss:36367.7305
+Evaluate cost:1.9469s 
+ Top5: hr:0.0120, ndcg:0.0106 
+ Top10: hr:0.0165, ndcg:0.0123 
+ Top15: hr:0.0221, ndcg:0.0143
+Following will output the evaluation of the model:
+Epoch:1, compute loss cost:3.6007s, train loss:18567.9180, val loss:14625.9355, test loss:36379.5391
+Evaluate cost:2.0029s 
+ Top5: hr:0.0066, ndcg:0.0061 
+ Top10: hr:0.0111, ndcg:0.0079 
+ Top15: hr:0.0156, ndcg:0.0095
+Epoch:2, compute loss cost:3.5184s, train loss:18563.9863, val loss:14620.0234, test loss:36365.8750
+Evaluate cost:2.1492s 
+ Top5: hr:0.0104, ndcg:0.0093 
+ Top10: hr:0.0139, ndcg:0.0104 
+ Top15: hr:0.0186, ndcg:0.0121
+Following will output the evaluation of the model:
+Epoch:1, compute loss cost:3.5800s, train loss:18567.6719, val loss:14624.5107, test loss:36380.8047
+Evaluate cost:1.9371s 
+ Top5: hr:0.0081, ndcg:0.0074 
+ Top10: hr:0.0121, ndcg:0.0089 
+ Top15: hr:0.0168, ndcg:0.0105
