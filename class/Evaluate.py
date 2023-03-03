@@ -4,6 +4,10 @@ from ipdb import set_trace
 
 class Evaluate():
     def __init__(self, conf):
+        """
+        评估类
+        :param conf:
+        """
         self.conf = conf
 
     def getIdcg(self, length):

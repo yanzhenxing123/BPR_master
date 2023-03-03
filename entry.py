@@ -5,6 +5,7 @@ sys.path.append(os.path.join(os.getcwd(), 'class'))
 from ParserConf import ParserConf
 from DataUtil import DataUtil
 from Evaluate import Evaluate
+import pdb
 
 from BPR import BPR
 
@@ -12,6 +13,12 @@ from ipdb import set_trace
 
 
 def executeTrainModel(config_path, model_name):
+    """
+    执行训练模型
+    :param config_path: 配置文件路径
+    :param model_name: 模型名称 BPR or PMF
+    :return:
+    """
     print(config_path)
     # print('System start to prepare parser config file...')
     conf = ParserConf(config_path)
@@ -22,8 +29,7 @@ def executeTrainModel(config_path, model_name):
     # print('System start to load TensorFlow graph...')
 
     model = eval(model_name)
-
-    model = model(conf)
+    model = model(conf)  # eg: model = BPR(conf)
 
     # print('System start to load data...')
     data = DataUtil(conf)

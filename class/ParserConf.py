@@ -1,17 +1,26 @@
 import configparser as cp
 import re, os
 
-class ParserConf():
 
+class ParserConf():
+    """
+    解析config文件
+    """
     def __init__(self, config_path):
         self.config_path = config_path
 
     def processValue(self, key, value):
-        #print(key, value)
+        """
+        处理.ini文件中，相当于.yaml文件
+        :param key:
+        :param value:
+        :return:
+        """
+        # print(key, value)
         tmp = value.split(' ')
         dtype = tmp[0]
         value = tmp[1:]
-        #print(dtype, value)
+        # print(dtype, value)
 
         if value != None:
             if dtype == 'string':
@@ -39,7 +48,7 @@ class ParserConf():
             for (key, value) in conf.items(section):
                 print(key, value)
                 self.processValue(key, value)
-       
+
         self.data_dir = os.path.join(os.getcwd(), 'data/%s' % self.data_name)
         self.links_filename = os.path.join(os.getcwd(), 'data/%s/%s.links' % (self.data_name, self.data_name))
         self.user_review_vector_matrix = os.path.join(os.getcwd(), 'data/%s/user_vector.npy' % self.data_name)

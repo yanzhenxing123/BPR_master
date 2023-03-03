@@ -3,11 +3,18 @@ from time import time
 from DataModule import DataModule
 
 class DataUtil():
+    """
+    处理数据工具类
+    """
     def __init__(self, conf):
         self.conf = conf
         #print('DataUtil, Line12, test- conf data_dir:%s' % self.conf.data_dir)
 
     def initializeRankingHandle(self):
+        """
+        start
+        :return:
+        """
         #t0 = time()
         self.createTrainHandle()
         self.createEvaluateHandle()
@@ -15,6 +22,10 @@ class DataUtil():
         #print('Prepare data cost:%.4fs' % (t1 - t0))
     
     def createTrainHandle(self):
+        """
+        创建训练数据
+        :return:
+        """
         data_dir = self.conf.data_dir
         train_filename = "%s/%s.train.rating" % (data_dir, self.conf.data_name)
         val_filename = "%s/%s.val.rating" % (data_dir, self.conf.data_name)
@@ -25,6 +36,10 @@ class DataUtil():
         self.test = DataModule(self.conf, test_filename)
 
     def createEvaluateHandle(self):
+        """
+        创建评估数据
+        :return:
+        """
         data_dir = self.conf.data_dir
         val_filename = "%s/%s.val.rating" % (data_dir, self.conf.data_name)
         test_filename = "%s/%s.test.rating" % (data_dir, self.conf.data_name)
