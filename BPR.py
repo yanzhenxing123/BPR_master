@@ -8,14 +8,15 @@ class BPR():
     """
     BPR模型实现
     """
+
     def __init__(self, conf):
         self.conf = conf
         self.supply_set = (
-            'SOCIAL_NEIGHBORS_SPARSE_MATRIX',
-            'CONSUMED_ITEMS_SPARSE_MATRIX',
-            'ITEM_CUSTOMER_SPARSE_MATRIX',
-            'FEATURE_SPARSE_MATRIX',
-            'COLD_START_MATRIX'
+            'SOCIAL_NEIGHBORS_SPARSE_MATRIX',  # 社交邻居稀疏矩阵
+            'CONSUMED_ITEMS_SPARSE_MATRIX',  # 消费项稀疏矩阵
+            'ITEM_CUSTOMER_SPARSE_MATRIX',  # 项目_客户_稀疏矩阵
+            'FEATURE_SPARSE_MATRIX',  # 特征_解析_矩阵
+            'COLD_START_MATRIX'  # 冷启动矩阵
         )
 
     def startConstructGraph(self):
