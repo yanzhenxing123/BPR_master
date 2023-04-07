@@ -34,7 +34,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
     # 2. start to prepare data for training and evaluating
     # 调用了   self.createTrainHandle()  创建训练数据
     #         self.createEvaluateHandle()  创建评估数据
-    data.initializeRankingHandle() # 创建训练数据和评估数据
+    data.initializeRankingHandle()  # 创建训练数据和评估数据
 
     # S1
     print('System start to load data...')
@@ -43,11 +43,10 @@ def prepareModelSupplement(conf, data, model, evaluate):
     d_train, d_val, d_test, d_test_eva = data.train, data.val, data.test, data.test_eva
 
     # 数据集的初始化
-    d_train.initializeRankingTrain() # 训练集初始化
-    d_val.initializeRankingVT()
-    d_test.initializeRankingVT()
-    d_test_eva.initalizeRankingEva()
-
+    d_train.initializeRankingTrain()  # 初始化训练集
+    d_val.initializeRankingVT()  # 初始化验证集
+    d_test.initializeRankingVT()  # 初始化测试集
+    d_test_eva.initalizeRankingEva()  # 初始化评估数据
 
     t1 = time()
     print('Data has been loaded successfully, cost:%.4fs' % (t1 - t0))

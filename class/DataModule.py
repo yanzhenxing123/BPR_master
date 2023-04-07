@@ -35,14 +35,14 @@ class DataModule():
         :return:
         """
         data_dict = {}
-        # 稀疏矩阵
+        # user_item稀疏矩阵
         if 'CONSUMED_ITEMS_SPARSE_MATRIX' in model.supply_set:
             self.generateConsumedItemsSparseMatrix()
             # self.arrangePositiveData()
             data_dict['CONSUMED_ITEMS_INDICES_INPUT'] = self.consumed_items_indices_list
             data_dict['CONSUMED_ITEMS_VALUES_INPUT'] = self.consumed_items_values_list
 
-        # 稀疏矩阵
+        # item_user 稀疏矩阵
         if 'ITEM_CUSTOMER_SPARSE_MATRIX' in model.supply_set:
             self.generateConsumedItemsSparseMatrixForItemUser()
             data_dict['ITEM_CUSTOMER_INDICES_INPUT'] = self.item_customer_indices_list
@@ -74,18 +74,25 @@ class DataModule():
         self.readData()  # 读取训练数据
         self.arrangePositiveData()  # (user, item)
         self.arrangePositiveDataForItemUser()  # 为 (item, user) 整理正面数据
-
-        self.generateTrainNegative()
+        self.generateTrainNegative()  # 生成负面数据，随机生成
 
     def initializeRankingVT(self):
+        """
+        初始化验证集
+        :return:
+        """
         self.readData()
         self.arrangePositiveData()
         self.arrangePositiveDataForItemUser()  # add
         self.generateTrainNegative()
 
     def initalizeRankingEva(self):
+        """
+        初始化评估数据
+        :return:
+        """
         self.readData()
-        self.getEvaPositiveBatch()
+        self.getEvaPositiveBatch()  # 获取评估数据积极批次
         self.generateEvaNegative()
 
     def initalizeRankingEva_s4(self):
@@ -197,6 +204,7 @@ class DataModule():
             total_user_list.add(int(arr[0]))
 
         self.s4_total_user_list = list(total_user_list)
+
         self.s4_hash_data = hash_data
 
     # def arrangePositiveData(self):
@@ -328,6 +336,7 @@ class DataModule():
     def generateTrainNegative(self):
         """
         生成负面数据
+        这个函数是为 val/test 部分设计的，计算loss
         :return:
         """
         num_items = self.conf.num_items  # 38342
@@ -347,10 +356,14 @@ class DataModule():
         self.terminal_flag = 1
 
     '''
-        This function designes for the val/test section, compute loss
+        This function designs for the val/test section, compute loss
     '''
 
     def getVTRankingOneBatch(self):
+        """
+        这个函数是为训练过程设计的
+        :return:
+        """
         positive_data = self.positive_data
         negative_data = self.negative_data
         total_user_list = self.total_user_list
@@ -370,7 +383,7 @@ class DataModule():
         self.labels_list = np.reshape(labels_list, [-1, 1])
 
     '''
-        This function designes for the training process
+        This function designs for the training process
     '''
 
     def getTrainRankingBatch(self):
@@ -407,10 +420,14 @@ class DataModule():
     '''
 
     def getEvaPositiveBatch(self):
+        """
+        18579行一列的矩阵
+        :return:
+        """
         hash_data = self.hash_data
-        user_list = []
-        item_list = []
-        index_dict = defaultdict(list)
+        user_list = []  # user_ids 18579
+        item_list = []  # item_ids 18579
+        index_dict = defaultdict(list)  # { 12834: [1807, 1808, 1809, 1810], 14947: [1811],}
         index = 0
         for (u, i) in hash_data:
             user_list.append(u)
@@ -422,6 +439,10 @@ class DataModule():
         self.eva_index_dict = index_dict
 
     def getEvaPositiveBatch_s4(self):
+        """
+        该函数专为评分评价部分的负面数据生成过程而设计
+        :return:
+        """
         hash_data = self.s4_hash_data
         user_list = []
         item_list = []
