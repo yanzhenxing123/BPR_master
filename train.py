@@ -43,7 +43,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
     d_train, d_val, d_test, d_test_eva = data.train, data.val, data.test, data.test_eva
 
     # 数据集的初始化
-    d_train.initializeRankingTrain()
+    d_train.initializeRankingTrain() # 训练集初始化
     d_val.initializeRankingVT()
     d_test.initializeRankingVT()
     d_test_eva.initalizeRankingEva()

@@ -1,10 +1,13 @@
 from __future__ import division
+
+import sys
 from collections import defaultdict
 import numpy as np
 from time import time
 import random
 import tensorflow as tf
 from ipdb import set_trace
+from loguru import logger
 
 
 class DataModule():
@@ -65,11 +68,11 @@ class DataModule():
 
     def initializeRankingTrain(self):
         """
-        初始化训练集 #
+        初始化训练集
         :return:
         """
-        self.readData() # 读取训练数据
-        self.arrangePositiveData()
+        self.readData()  # 读取训练数据
+        self.arrangePositiveData()  # 积极数据 the rating of user_id on item_id > 1
 
         self.arrangePositiveDataForItemUser()  # add
 
@@ -176,9 +179,9 @@ class DataModule():
         hash_data = defaultdict(int)  # hash_data = 0
         for _, line in enumerate(f):
             # set_trace()
-            arr = line.split("\t")
-            hash_data[(int(arr[0]), int(arr[1]))] = 1
-            total_user_list.add(int(arr[0]))
+            arr = line.split("\t")  # ['1869', '10234', '1\n']
+            hash_data[(int(arr[0]), int(arr[1]))] = 1  # { (1869, 10234) = 1}
+            total_user_list.add(int(arr[0]))  # 添加到user_id_set
 
         self.total_user_list = list(total_user_list)
         self.hash_data = hash_data
@@ -198,19 +201,23 @@ class DataModule():
         self.s4_hash_data = hash_data
 
     def arrangePositiveData(self):
+        """
+        debug后，发现没有用到这个方法
+        :return:
+        """
         # defaultdict(set)
         # [('blue', {2, 4}), ('red', {1, 3})]
+
         positive_data = defaultdict(set)
-        user_item_num_dict = defaultdict(set)
+        user_item_num_dict = defaultdict(set)  #
 
         total_data = set()
-        hash_data = self.hash_data
+        hash_data = self.hash_data  # { (1869, 10234) = 1}
         for (u, i) in hash_data:
             total_data.add((u, i))
-            positive_data[u].add(i)
+            positive_data[u].add(i)  # { 1869: {10234} }
 
         user_list = sorted(list(positive_data.keys()))
-
         for u in range(self.conf.num_users):
             user_item_num_dict[u] = len(positive_data[u]) + 1
             # user_item_num_for_sparsity_dict[u] = len(positive_data[u])
@@ -530,13 +537,17 @@ class DataModule():
 
     ###
     def arrangePositiveData(self):
+        """
+        整理正相关数据，即 rating of user_id on item_id > 1
+        :return:
+        """
         positive_data = defaultdict(set)
         user_item_num_dict = defaultdict(set)
-        total_data = set()
-        hash_data = self.hash_data
+        total_data = set() # { (1869, 10234) }
+        hash_data = self.hash_data  # { (1869, 10234) = 1}
         for (u, i) in hash_data:
             total_data.add((u, i))
-            positive_data[u].add(i)
+            positive_data[u].add(i)  # { 1869: {10234} }
 
         user_list = sorted(list(positive_data.keys()))
 
