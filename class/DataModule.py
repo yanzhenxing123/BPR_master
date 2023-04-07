@@ -65,10 +65,10 @@ class DataModule():
 
     def initializeRankingTrain(self):
         """
-        初始化训练集
+        初始化训练集 #
         :return:
         """
-        self.readData()
+        self.readData() # 读取训练数据
         self.arrangePositiveData()
 
         self.arrangePositiveDataForItemUser()  # add
@@ -170,6 +170,7 @@ class DataModule():
         :return:
         """
         f = open(self.filename)  ## May should be specific for different subtasks
+        # user_id去重
         total_user_list = set()
 
         hash_data = defaultdict(int)  # hash_data = 0
@@ -197,6 +198,8 @@ class DataModule():
         self.s4_hash_data = hash_data
 
     def arrangePositiveData(self):
+        # defaultdict(set)
+        # [('blue', {2, 4}), ('red', {1, 3})]
         positive_data = defaultdict(set)
         user_item_num_dict = defaultdict(set)
 

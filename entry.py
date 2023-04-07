@@ -32,8 +32,8 @@ def executeTrainModel(config_path, model_name):
     model = model(conf)  # eg: model = BPR(conf)
 
     # print('System start to load data...')
-    data = DataUtil(conf)
-    evaluate = Evaluate(conf)
+    data = DataUtil(conf) # 数据集，
+    evaluate = Evaluate(conf) # 评估类
 
     import train as starter
     starter.prepareModelSupplement(conf, data, model, evaluate)
