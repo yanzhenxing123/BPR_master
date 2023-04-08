@@ -30,23 +30,23 @@ class DataModule():
     ###########################################  Initalize Procedures ############################################
     def prepareModelSupplement(self, model):
         """
-        准备模型补充
+        准备模型补充, 导入数据后, 数据生成的入口函数
         :param model:
         :return:
         """
         data_dict = {}
         # user_item 稀疏矩阵
         if 'CONSUMED_ITEMS_SPARSE_MATRIX' in model.supply_set:
-            self.generateConsumedItemsSparseMatrix() # 生成 稀疏矩阵
+            self.generateConsumedItemsSparseMatrix()  # 生成 user_item 稀疏矩阵
             # self.arrangePositiveData()
-            data_dict['CONSUMED_ITEMS_INDICES_INPUT'] = self.consumed_items_indices_list
-            data_dict['CONSUMED_ITEMS_VALUES_INPUT'] = self.consumed_items_values_list
+            data_dict['CONSUMED_ITEMS_INDICES_INPUT'] = self.consumed_items_indices_list  # len = 185869
+            data_dict['CONSUMED_ITEMS_VALUES_INPUT'] = self.consumed_items_values_list  # len = 185869
 
         # item_user 稀疏矩阵
         if 'ITEM_CUSTOMER_SPARSE_MATRIX' in model.supply_set:
-            self.generateConsumedItemsSparseMatrixForItemUser()
-            data_dict['ITEM_CUSTOMER_INDICES_INPUT'] = self.item_customer_indices_list
-            data_dict['ITEM_CUSTOMER_VALUES_INPUT'] = self.item_customer_values_list
+            self.generateConsumedItemsSparseMatrixForItemUser()  # 生成 item_user 稀疏矩阵
+            data_dict['ITEM_CUSTOMER_INDICES_INPUT'] = self.item_customer_indices_list  # len = 185869
+            data_dict['ITEM_CUSTOMER_VALUES_INPUT'] = self.item_customer_values_list  # len = 185869
 
         return data_dict
 
@@ -670,17 +670,17 @@ class DataModule():
 
     def generateConsumedItemsSparseMatrix(self):
         """
-        生成消耗品稀疏矩阵
+        生成user_item稀疏矩阵
         :return:
         """
         positive_data = self.positive_data
         consumed_items_indices_list = []
         consumed_items_values_list = []
         consumed_items_values_weight_avg_list = []
-        consumed_item_num_list = []
-        consumed_items_dict = defaultdict(list)  # {user_id: list(item_ids)} # value升序
+        consumed_item_num_list = []  # {user_id: len(item_ids)}
+        consumed_items_dict = defaultdict(list)  # {user_id: list(item_ids)} # value升序 还是positive_data
 
-        user_item_num_for_sparsity_dict = defaultdict(set)
+        user_item_num_for_sparsity_dict = defaultdict(set)  # {user_id: len(item_ids)}
 
         user_item_sparsity_dict = {}
 
@@ -698,7 +698,7 @@ class DataModule():
         item_user_num_dict = self.item_user_num_dict  # weight avg
 
         for u in positive_data:
-            consumed_items_dict[u] = sorted(positive_data[u]) # 相当于还是 positive_data
+            consumed_items_dict[u] = sorted(positive_data[u])  # 相当于还是 positive_data
 
         user_list = sorted(list(positive_data.keys()))
 
@@ -722,7 +722,7 @@ class DataModule():
 
         # set_trace()
         for u in range(self.conf.num_users):
-            cur_user_consumed_item_num = user_item_num_for_sparsity_dict[u]
+            cur_user_consumed_item_num = user_item_num_for_sparsity_dict[u]  # 用户购买item的数量
             if ((cur_user_consumed_item_num >= 0) & (cur_user_consumed_item_num < 4)):
                 user_item_sparsity_dict['0-4'].append(u)
             elif ((cur_user_consumed_item_num >= 4) & (cur_user_consumed_item_num < 8)):
@@ -736,6 +736,8 @@ class DataModule():
             elif (cur_user_consumed_item_num >= 64):
                 user_item_sparsity_dict['64-'].append(u)
 
+        # set_trace()
+
         self.user_item_sparsity_dict = user_item_sparsity_dict
 
         self.consumed_items_indices_list = np.array(consumed_items_indices_list).astype(np.int64)
@@ -745,6 +747,11 @@ class DataModule():
         self.consumed_item_num_list = np.array(consumed_item_num_list).astype(np.int64)
 
     def generateConsumedItemsSparseMatrixForItemUser(self):
+        """
+        生成 item_user 稀疏矩阵
+        代码结构和 generateConsumedItemsSparseMatrix() 一样
+        :return:
+        """
         positive_data_for_item_user = self.positive_data_for_item_user
         item_customer_indices_list = []
         item_customer_values_list = []
