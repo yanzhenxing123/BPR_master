@@ -54,8 +54,8 @@ def prepareModelSupplement(conf, data, model, evaluate):
     # 3. prepare model necessary data. 准备模型需要的数据
     data_dict = d_train.prepareModelSupplement(model)
 
-    model.inputSupply(data_dict)
-    model.startConstructGraph()
+    model.inputSupply(data_dict)  # 取出数据（为模型提供上面准备好的数据）
+    model.startConstructGraph()  # 创建图（定义节点等等）
 
     # standard tensorflow running environment initialize tensorflow运行环境初始化
     tf_conf = tf.ConfigProto()
@@ -88,8 +88,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
             for (key, value) in model.map_dict['train'].items():
                 train_feed_dict[key] = d_train.data_dict[value]
 
-            [sub_train_loss, _] = sess.run( \
-                [model.map_dict['out']['train'], model.opt], feed_dict=train_feed_dict)
+            [sub_train_loss, _] = sess.run([model.map_dict['out']['train'], model.opt], feed_dict=train_feed_dict)
             tmp_train_loss.append(sub_train_loss)
 
         train_loss = np.mean(tmp_train_loss)
@@ -169,6 +168,6 @@ def prepareModelSupplement(conf, data, model, evaluate):
                    (epoch, (t2 - t0), train_loss, val_loss, test_loss))
         log.record(
             'Evaluate cost:%.4fs \n Top5: hr:%.4f, ndcg:%.4f \n Top10: hr:%.4f, ndcg:%.4f \n Top15: hr:%.4f, ndcg:%.4f' % (
-                (tt3 - tt2), hr_5, ndcg_5, hr, ndcg, hr_15, ndcg_15))
+            (tt3 - tt2), hr_5, ndcg_5, hr, ndcg, hr_15, ndcg_15))
 
         d_train.generateTrainNegative()

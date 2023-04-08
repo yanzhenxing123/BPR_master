@@ -20,9 +20,13 @@ class BPR():
         )
 
     def startConstructGraph(self):
-        self.initializeNodes()
-        self.constructTrainGraph()
-        self.saveVariables()
+        """
+        开始创建图
+        :return:
+        """
+        self.initializeNodes()  # 初始化图节点
+        self.constructTrainGraph()  # 创建训练图
+        self.saveVariables() # 保存定义好的变量
         self.defineMap()
 
         # self.user_social_neighbor_low_att_list = tf.Variable(tf.random_normal([len(self.social_neighbors_indices_list)], stddev=0.01))
@@ -30,6 +34,11 @@ class BPR():
         # self.item_users_low_att_list = tf.Variable(tf.random_normal([len(self.item_customer_indices_list)], stddev=0.01))
 
     def inputSupply(self, data_dict):
+        """
+        取出数据
+        :param data_dict:
+        :return:
+        """
         # user-item
 
         self.consumed_items_indices_input = data_dict['CONSUMED_ITEMS_INDICES_INPUT']
@@ -40,32 +49,38 @@ class BPR():
         self.item_customer_values_input = data_dict['ITEM_CUSTOMER_VALUES_INPUT']
 
         # prepare sparse matrix, in order to compute user's embedding from social neighbors and consumed items
+        # 准备稀疏矩阵，以计算用户从社交邻居和item的映射
         self.social_neighbors_dense_shape = np.array([self.conf.num_users, self.conf.num_users]).astype(np.int64)
         self.consumed_items_dense_shape = np.array([self.conf.num_users, self.conf.num_items]).astype(np.int64)
         self.item_customer_dense_shape = np.array([self.conf.num_items, self.conf.num_users]).astype(np.int64)
 
     def initializeNodes(self):
-        self.item_input = tf.placeholder("int32", [None, 1])  # Get item embedding from the core_item_input
+        """
+        初始化节点
+        :return:
+        """
+        # 占位符
+        self.item_input = tf.placeholder(dtype="int32", shape=[None, 1])  # Get item embedding from the core_item_input
         self.user_input = tf.placeholder("int32", [None, 1])  # Get user embedding from the core_user_input
         self.labels_input = tf.placeholder("float32", [None, 1])
 
-        self.user_embedding = tf.Variable(
-            tf.random_normal([self.conf.num_users, self.conf.dimension], stddev=0.01), name='user_embedding')
-        self.item_embedding = tf.Variable(
-            tf.random_normal([self.conf.num_items, self.conf.dimension], stddev=0.01), name='item_embedding')
+        self.user_embedding = tf.Variable(tf.random_normal([self.conf.num_users, self.conf.dimension], stddev=0.01),
+                                          name='user_embedding')
+        self.item_embedding = tf.Variable(tf.random_normal([self.conf.num_items, self.conf.dimension], stddev=0.01),
+                                          name='item_embedding')
 
-        self.item_fusion_layer = tf.layers.Dense( \
-            self.conf.dimension, activation=tf.nn.sigmoid, name='item_fusion_layer')
-        self.user_fusion_layer = tf.layers.Dense( \
-            self.conf.dimension, activation=tf.nn.sigmoid, name='user_fusion_layer')
+        self.item_fusion_layer = tf.layers.Dense(self.conf.dimension, activation=tf.nn.sigmoid,
+                                                 name='item_fusion_layer')
+        self.user_fusion_layer = tf.layers.Dense(self.conf.dimension, activation=tf.nn.sigmoid,
+                                                 name='user_fusion_layer')
 
-        self.reduce_dimension_layer = tf.layers.Dense( \
-            self.conf.dimension, activation=tf.nn.sigmoid, name='reduce_dimension_layer')
+        self.reduce_dimension_layer = tf.layers.Dense(self.conf.dimension, activation=tf.nn.sigmoid,
+                                                      name='reduce_dimension_layer')
 
     def constructTrainGraph(self):
         # handle review information, map the origin review into the new space and
 
-        self.fusion_item_embedding = self.item_embedding
+        self.fusion_item_embedding = self.item_embedding  # tf.Variable(tf.random_normal([self.conf.num_items, self.conf.dimension], stddev=0.01), name='item_embedding')
         self.fusion_user_embedding = self.user_embedding
 
         # BPR
@@ -86,6 +101,10 @@ class BPR():
         self.init = tf.global_variables_initializer()
 
     def saveVariables(self):
+        """
+        保存定义好的变量
+        :return:
+        """
         ############################# Save Variables #################################
         variables_dict = {}
         variables_dict[self.user_embedding.op.name] = self.user_embedding
@@ -98,6 +117,10 @@ class BPR():
         ############################# Save Variables #################################
 
     def defineMap(self):
+        """
+        定义数据字典
+        :return:
+        """
         map_dict = {}
         map_dict['train'] = {
             self.user_input: 'USER_LIST',
