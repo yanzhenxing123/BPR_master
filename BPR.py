@@ -13,8 +13,8 @@ class BPR():
         self.conf = conf
         self.supply_set = (
             'SOCIAL_NEIGHBORS_SPARSE_MATRIX',  # 社交邻居稀疏矩阵
-            'CONSUMED_ITEMS_SPARSE_MATRIX',  # 消费项稀疏矩阵
-            'ITEM_CUSTOMER_SPARSE_MATRIX',  # 项目_客户_稀疏矩阵
+            'CONSUMED_ITEMS_SPARSE_MATRIX',  # user_item 稀疏矩阵
+            'ITEM_CUSTOMER_SPARSE_MATRIX',  # item_user 稀疏矩阵
             'FEATURE_SPARSE_MATRIX',  # 特征_解析_矩阵
             'COLD_START_MATRIX'  # 冷启动矩阵
         )

@@ -57,7 +57,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
     model.inputSupply(data_dict)
     model.startConstructGraph()
 
-    # standard tensorflow running environment initialize
+    # standard tensorflow running environment initialize tensorflow运行环境初始化
     tf_conf = tf.ConfigProto()
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     tf_conf.gpu_options.allow_growth = True

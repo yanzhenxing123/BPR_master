@@ -35,9 +35,9 @@ class DataModule():
         :return:
         """
         data_dict = {}
-        # user_item稀疏矩阵
+        # user_item 稀疏矩阵
         if 'CONSUMED_ITEMS_SPARSE_MATRIX' in model.supply_set:
-            self.generateConsumedItemsSparseMatrix()
+            self.generateConsumedItemsSparseMatrix() # 生成 稀疏矩阵
             # self.arrangePositiveData()
             data_dict['CONSUMED_ITEMS_INDICES_INPUT'] = self.consumed_items_indices_list
             data_dict['CONSUMED_ITEMS_VALUES_INPUT'] = self.consumed_items_values_list
@@ -571,7 +571,7 @@ class DataModule():
         (user, item)
         :return:
         """
-        positive_data = defaultdict(set)  # # { 1869: {10234, ...}, 1870:{...} }
+        positive_data = defaultdict(set)  # { 1869: {10234, ...}, 1870:{...} }
         user_item_num_dict = defaultdict(set)  # {1869: num, 1870: num}
         total_data = set()  # { (1869, 10234) }
         hash_data = self.hash_data  # { (1869, 10234): 1}
@@ -678,7 +678,7 @@ class DataModule():
         consumed_items_values_list = []
         consumed_items_values_weight_avg_list = []
         consumed_item_num_list = []
-        consumed_items_dict = defaultdict(list)
+        consumed_items_dict = defaultdict(list)  # {user_id: list(item_ids)} # value升序
 
         user_item_num_for_sparsity_dict = defaultdict(set)
 
@@ -698,7 +698,7 @@ class DataModule():
         item_user_num_dict = self.item_user_num_dict  # weight avg
 
         for u in positive_data:
-            consumed_items_dict[u] = sorted(positive_data[u])
+            consumed_items_dict[u] = sorted(positive_data[u]) # 相当于还是 positive_data
 
         user_list = sorted(list(positive_data.keys()))
 
@@ -714,9 +714,8 @@ class DataModule():
         # set_trace()
 
         for u in user_list:
-
             for i in consumed_items_dict[u]:
-                consumed_items_indices_list.append([u, i])
+                consumed_items_indices_list.append([u, i])  #
                 consumed_items_values_list.append(1.0 / len(consumed_items_dict[u]))
                 consumed_items_values_weight_avg_list.append(
                     1.0 / (np.sqrt(consumed_items_num_dict[u]) * np.sqrt(item_user_num_dict[i])))  # weight avg
