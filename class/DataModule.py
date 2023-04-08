@@ -669,6 +669,10 @@ class DataModule():
     '''
 
     def generateConsumedItemsSparseMatrix(self):
+        """
+        生成消耗品稀疏矩阵
+        :return:
+        """
         positive_data = self.positive_data
         consumed_items_indices_list = []
         consumed_items_values_list = []
