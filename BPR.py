@@ -26,7 +26,7 @@ class BPR():
         """
         self.initializeNodes()  # 初始化图节点
         self.constructTrainGraph()  # 创建训练图
-        self.saveVariables() # 保存定义好的变量
+        self.saveVariables()  # 保存定义好的变量
         self.defineMap()
 
         # self.user_social_neighbor_low_att_list = tf.Variable(tf.random_normal([len(self.social_neighbors_indices_list)], stddev=0.01))
@@ -78,7 +78,11 @@ class BPR():
                                                       name='reduce_dimension_layer')
 
     def constructTrainGraph(self):
-        # handle review information, map the origin review into the new space and
+        """
+        构建训练图
+        :return:
+        """
+        # handle review information, map the origin review into the new space and 处理评审信息，将原始评审映射到新的空间
 
         self.fusion_item_embedding = self.item_embedding  # tf.Variable(tf.random_normal([self.conf.num_items, self.conf.dimension], stddev=0.01), name='item_embedding')
         self.fusion_user_embedding = self.user_embedding
@@ -94,10 +98,10 @@ class BPR():
 
         # self.prediction = self.predict_rating_layer(tf.concat([latest_user_latent, latest_item_latent], 1))
 
+        # 使的L2正则化
         self.loss = tf.nn.l2_loss(self.labels_input - self.prediction)
-
         self.opt_loss = tf.nn.l2_loss(self.labels_input - self.prediction)
-        self.opt = tf.train.AdamOptimizer(self.conf.learning_rate).minimize(self.opt_loss)
+        self.opt = tf.train.AdamOptimizer(self.conf.learning_rate).minimize(self.opt_loss)  # # AdamOptimizer 梯度下降算法
         self.init = tf.global_variables_initializer()
 
     def saveVariables(self):

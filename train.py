@@ -74,7 +74,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
 
     # 4. Start Training !!! 开始训练
     for epoch in range(1, conf.epochs + 1):
-        # optimize model with training data and compute train loss
+        # optimize model with training data and compute train loss 利用训练数据优化模型并计算训练损失
         tmp_train_loss = []
         t0 = time()
 
@@ -114,7 +114,9 @@ def prepareModelSupplement(conf, data, model, evaluate):
 
         # start evaluate model performance, hr and ndcg 评估指标
         def getPositivePredictions():
-
+            """
+            获得正面预测
+            """
             d_test_eva.getEvaPositiveBatch()
             d_test_eva.linkedRankingEvaMap()
             eva_feed_dict = {}
@@ -127,6 +129,9 @@ def prepareModelSupplement(conf, data, model, evaluate):
             return positive_predictions
 
         def getNegativePredictions():
+            """
+            获取负面预测
+            """
             negative_predictions = {}
             terminal_flag = 1
             while terminal_flag:
@@ -157,17 +162,18 @@ def prepareModelSupplement(conf, data, model, evaluate):
 
         tt3 = time()
         # s1
-        hr, ndcg = evaluate.evaluateRankingPerformance( \
-            index_dict, positive_predictions, negative_predictions, conf.topk, conf.num_procs)
-        hr_5, ndcg_5 = evaluate.evaluateRankingPerformance( \
-            index_dict, positive_predictions, negative_predictions, conf.top5, conf.num_procs)
-        hr_15, ndcg_15 = evaluate.evaluateRankingPerformance( \
-            index_dict, positive_predictions, negative_predictions, conf.top15, conf.num_procs)
+        hr, ndcg = evaluate.evaluateRankingPerformance(index_dict, positive_predictions, negative_predictions,
+                                                       conf.topk, conf.num_procs)
+        hr_5, ndcg_5 = evaluate.evaluateRankingPerformance(index_dict, positive_predictions, negative_predictions,
+                                                           conf.top5, conf.num_procs)
+        hr_15, ndcg_15 = evaluate.evaluateRankingPerformance(index_dict, positive_predictions, negative_predictions,
+                                                             conf.top15, conf.num_procs)
 
-        log.record('Epoch:%d, compute loss cost:%.4fs, train loss:%.4f, val loss:%.4f, test loss:%.4f' % \
-                   (epoch, (t2 - t0), train_loss, val_loss, test_loss))
+        log.record('Epoch:%d, compute loss cost:%.4fs, train loss:%.4f, val loss:%.4f, test loss:%.4f' % (
+            epoch, (t2 - t0), train_loss, val_loss, test_loss))
         log.record(
             'Evaluate cost:%.4fs \n Top5: hr:%.4f, ndcg:%.4f \n Top10: hr:%.4f, ndcg:%.4f \n Top15: hr:%.4f, ndcg:%.4f' % (
-            (tt3 - tt2), hr_5, ndcg_5, hr, ndcg, hr_15, ndcg_15))
+                (tt3 - tt2), hr_5, ndcg_5, hr, ndcg, hr_15, ndcg_15)
+        )
 
         d_train.generateTrainNegative()
