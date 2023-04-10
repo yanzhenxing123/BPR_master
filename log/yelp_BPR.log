@@ -618,3 +618,4 @@ Evaluate cost:4.7865s
  Top5: hr:0.0059, ndcg:0.0039 
  Top10: hr:0.0112, ndcg:0.0059 
  Top15: hr:0.0161, ndcg:0.0073
+Following will output the evaluation of the model:

@@ -387,11 +387,15 @@ class DataModule():
     '''
 
     def getTrainRankingBatch(self):
+        """
+        获取训练排名批次
+        :return:
+        """
         positive_data = self.positive_data
         negative_data = self.negative_data
         total_user_list = self.total_user_list
-        index = self.index
-        batch_size = self.conf.training_batch_size
+        index = self.index # 0
+        batch_size = self.conf.training_batch_size # 512
 
         user_list, item_list, labels_list = [], [], []
 
@@ -414,6 +418,7 @@ class DataModule():
         self.user_list = np.reshape(user_list, [-1, 1])
         self.item_list = np.reshape(item_list, [-1, 1])
         self.labels_list = np.reshape(labels_list, [-1, 1])
+
 
     '''
         This function is designed for the positive data in rating evaluate section
