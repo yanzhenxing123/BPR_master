@@ -394,8 +394,8 @@ class DataModule():
         positive_data = self.positive_data
         negative_data = self.negative_data
         total_user_list = self.total_user_list
-        index = self.index  # 0
-        batch_size = self.conf.training_batch_size  # 512
+        index = self.index # 0
+        batch_size = self.conf.training_batch_size # 512
 
         user_list, item_list, labels_list = [], [], []
 
@@ -418,6 +418,7 @@ class DataModule():
         self.user_list = np.reshape(user_list, [-1, 1])
         self.item_list = np.reshape(item_list, [-1, 1])
         self.labels_list = np.reshape(labels_list, [-1, 1])
+
 
     '''
         This function is designed for the positive data in rating evaluate section
@@ -553,10 +554,10 @@ class DataModule():
         :param friends_flag: 相互信任 默认为 1
         :return:
         """
-        social_neighbors = defaultdict(set)  # { user_id:{user_id1, user_id2}} 表示一个用户和另一个用户的朋友关系
-        social_neighbors_num_dict = defaultdict(set)  # {user_id: len(friends)} 一个用户有几个朋友
+        social_neighbors = defaultdict(set) # { user_id:{user_id1, user_id2}} 表示一个用户和另一个用户的朋友关系
+        social_neighbors_num_dict = defaultdict(set) # {user_id: len(friends)} 一个用户有几个朋友
 
-        links_file = open(self.conf.links_filename)  # flickr.links
+        links_file = open(self.conf.links_filename) # flickr.links
         for _, line in enumerate(links_file):
             tmp = line.split('\t')
             u1, u2 = int(tmp[0]), int(tmp[1])
@@ -685,7 +686,7 @@ class DataModule():
         consumed_items_indices_list = []
         consumed_items_values_list = []
         consumed_items_values_weight_avg_list = []
-        consumed_item_num_list = []  # {user_id: len(item_ids)}
+        consumed_item_num_list = []  # [len(item_ids)]
         consumed_items_dict = defaultdict(list)  # {user_id: list(item_ids)} # value升序 还是positive_data
 
         user_item_num_for_sparsity_dict = defaultdict(set)  # {user_id: len(item_ids)}
