@@ -394,8 +394,8 @@ class DataModule():
         positive_data = self.positive_data
         negative_data = self.negative_data
         total_user_list = self.total_user_list
-        index = self.index # 0
-        batch_size = self.conf.training_batch_size # 512
+        index = self.index  # 0
+        batch_size = self.conf.training_batch_size  # 512
 
         user_list, item_list, labels_list = [], [], []
 
@@ -418,7 +418,6 @@ class DataModule():
         self.user_list = np.reshape(user_list, [-1, 1])
         self.item_list = np.reshape(item_list, [-1, 1])
         self.labels_list = np.reshape(labels_list, [-1, 1])
-
 
     '''
         This function is designed for the positive data in rating evaluate section
@@ -549,10 +548,15 @@ class DataModule():
 
     ##################################################### Supplement for Sparse Computation ############################################
     def readSocialNeighbors(self, friends_flag=1):
-        social_neighbors = defaultdict(set)
-        social_neighbors_num_dict = defaultdict(set)
+        """
+        读取用户社交关系
+        :param friends_flag: 相互信任 默认为 1
+        :return:
+        """
+        social_neighbors = defaultdict(set)  # { user_id:{user_id1, user_id2}} 表示一个用户和另一个用户的朋友关系
+        social_neighbors_num_dict = defaultdict(set)  # {user_id: len(friends)} 一个用户有几个朋友
 
-        links_file = open(self.conf.links_filename)
+        links_file = open(self.conf.links_filename)  # flickr.links
         for _, line in enumerate(links_file):
             tmp = line.split('\t')
             u1, u2 = int(tmp[0]), int(tmp[1])
@@ -636,7 +640,6 @@ class DataModule():
                 social_neighbor_num_list.append(1)
 
         for user in user_list:
-
             for friend in social_neighbors_dict[user]:
                 social_neighbors_indices_list.append([user, friend])
                 social_neighbors_values_list.append(1.0 / len(social_neighbors_dict[user]))

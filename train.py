@@ -147,7 +147,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
                         model.map_dict['out']['eva'],
                         feed_dict=eva_feed_dict
                     ),
-                    [-1, conf.num_evaluate])
+                    [-1, conf.evaluate])
                 for u in batch_user_list:
                     negative_predictions[u] = tmp_negative_predictions[index]
                     index = index + 1
@@ -155,7 +155,7 @@ def prepareModelSupplement(conf, data, model, evaluate):
 
         index_dict = d_test_eva.eva_index_dict
 
-        positive_predictions = getPositivePredictions()
+        positive_predictionnum_s = getPositivePredictions()
         negative_predictions = getNegativePredictions()
 
         d_test_eva.index = 0  # !!!important, prepare for new batch
